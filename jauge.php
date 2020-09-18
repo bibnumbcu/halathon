@@ -13,64 +13,28 @@ $results = getApi($url);
 $jsonResults = json_decode($results);
 $nbWithFiles = $jsonResults->nbWithFiles;
 $nbWithoutFiles = $jsonResults->nbWithoutFiles;
-var_dump($results);
 ?>
+
 <style>
 	    #hal-uca-counters{
 			margin: 0 auto;
 			width: 600px;
 			height: 500px;
 		}
-
-		canvas{
-			box-shadow: 5px 5px 5px #ccc;
-		}
+	
 </style>
 
 
 <script type="text/javascript">
 window.onload = function()
 {
-	var container = document.getElementById('hal-uca-counters');
-	var canvas = document.getElementById("hal-uca-canvas");
 	
-	var ctx = canvas.getContext("2d");
 	
-	//récupération des dimensions css du conteneur du canvas
-	var cssWidth = window.getComputedStyle(container).getPropertyValue('width');
-	var cssHeight = window.getComputedStyle(container).getPropertyValue('height');
-	var W = cssWidth.split('px')[0];
-	var H = cssHeight.split('px')[0];
-	
-	canvas.width  = W;
-	canvas.height = H; 
-		
-	var animation_loop, redraw_loop;
-
-
-	var nbWithFiles = <?= $nbWithFiles ?>;
-	var nbWithoutFiles = <?= $nbWithoutFiles?>;
-    var nbArticles = nbWithoutFiles + nbWithFiles;
-    var rootText = 'articles de revue de 2020';
-    var textWithoutFiles = "attendent leur texte intégral dans HAL";
-    var textWithFiles = "sont en libre accès depuis HAL";
-
-    var xpos = 0;
-    var ypos = 0;
-
-    var fillColor = "#dd7226";
-    var darkColor = "#333";
-	var shadowColor = "#777";
-
-	//pourcentage de remplissage de la jauge
-	var jaugePercent = 0;
-	var finalJaugePercent = Math.round(nbWithFiles * 100 / nbArticles);
-    
 	
 	/**
      *  fonction d'affichage du texte
      */
-	function drawText(xpos, ypos, rootText, text, nbArts, textColor){
+	function drawText(rootText, text, nbArts, textColor){
         ctx.fillStyle = textColor;
         ctx.font = "bold 35px Arial ";
         ctx.fillText(nbArts, xpos, ypos + 15);
@@ -86,7 +50,7 @@ window.onload = function()
 	 /**
      *  fonction de traçage des graduations et des pourcentages
      */
-	function drawGraduating(xpos, ypos, jaugeHeight){
+	function drawGraduating(){
 		ctx.strokeStyle = darkColor;
 
 		//calcul du pas entre les graduations		
@@ -118,7 +82,7 @@ window.onload = function()
 	/**
 	*	fonction de traçage de la jauge
 	*/
-	 function drawJauge(xpos,ypos, jaugeHeight, jaugeWidth, radius){
+	 function drawJauge(){
 			//coin inférieur gauche
 			ctx.moveTo(xpos, ypos);
 
@@ -148,9 +112,7 @@ window.onload = function()
 			ctx.stroke();
 
 			//reset de l'ombre pour ne pas en avoir sur le prochain traçage
-			ctx.shadowOffsetX = 0;
-			ctx.shadowOffsetY = 0;
-			ctx.shadowBlur = 0;
+			resetShadow();
 
 			//traçage du remplissage
 			ctx.strokeStyle = fillColor;
@@ -163,8 +125,66 @@ window.onload = function()
 
 		}
 
+	function resetShadow(){
+		//reset de l'ombre pour ne pas en avoir sur le prochain traçage
+		ctx.shadowOffsetX = 0;
+		ctx.shadowOffsetY = 0;
+		ctx.shadowBlur = 0;
+	}
 
+	function drawCanvasBorder(){
+		//init des coordonnées pour le traçage du cadre avec coins arrondis
+		ctx.shadowColor = shadowColor;
+		ctx.shadowBlur = 4;
+		ctx.shadowOffsetX = 2;
+		ctx.shadowOffsetY = 2;
+		ctx.strokeStyle = fillColor;
+		
 
+		//début du tracé en bas à gauche
+        xpos = 0 + offset;
+        ypos = H - offset;
+        
+		//largeur et hauteur du cadre
+		var borderWidth =  W - (2*offset);
+		var borderHeight = H - (2*offset);
+
+        //traçage de la bordure
+		ctx.beginPath();
+		
+		//coin inférieur gauche
+		ctx.moveTo(xpos + radius, ypos);
+		
+		//ligne basse
+		ctx.lineTo( borderWidth - radius , ypos);
+
+		//arrondi en bas à droite
+		ctx.arcTo( xpos + borderWidth  , ypos,  xpos + borderWidth  , ypos - radius , radius);
+
+		//ligne côté droit
+		ctx.lineTo(xpos + borderWidth , ypos - borderHeight + radius);
+
+		//arrondi en haut à droite
+		ctx.arcTo(xpos + borderWidth, ypos - borderHeight, xpos + borderWidth - radius, ypos - borderHeight, radius);
+
+		//ligne haute
+		ctx.lineTo(xpos +radius  , ypos - borderHeight);
+
+		//coin arrondi en haut à gauche
+		ctx.arcTo(xpos, ypos - borderHeight, xpos, ypos - borderHeight + radius, radius);
+
+		//ligne gauche
+		ctx.lineTo(xpos, borderHeight - radius);
+		
+		//coin arrondi en bas à gauche
+		ctx.arcTo(xpos, ypos, xpos + radius, ypos, radius);
+
+		//traçage de la ligne
+		ctx.stroke();
+
+		resetShadow();
+
+	}
 	/*
 	 * Initialise le canvas en créant le texte avec l'affichage des compteurs et le rectangle gradué avec la jauge
 	 */
@@ -173,10 +193,8 @@ window.onload = function()
 		//effacement du canvas
         ctx.clearRect(0, 0, W, H);
 
-        //traçage de la bordure
-		ctx.strokeStyle = fillColor;
-        ctx.strokeRect(0, 0, W, H); 
-
+		drawCanvasBorder();
+				
         /**
         *   affichage du nombre d'articles sans fichiers
          */
@@ -184,7 +202,7 @@ window.onload = function()
         xpos = W/100*38;
         ypos = H/100*25;
         //traçage du texte
-        drawText(xpos, ypos, rootText, textWithoutFiles, nbWithoutFiles, darkColor);
+        drawText(rootText, textWithoutFiles, nbWithoutFiles, darkColor);
 
         /**
         *   affichage du nombre d'articles avec fichiers
@@ -192,8 +210,9 @@ window.onload = function()
         //calcul des coordonnées
         xpos = W/100*38;
         ypos = H/100*75;
+
         //traçage du texte
-        drawText(xpos, ypos, rootText, textWithFiles, nbWithFiles, fillColor);
+        drawText(rootText, textWithFiles, nbWithFiles, fillColor);
 
 		/**
         *   traçage de la jauge
@@ -202,15 +221,14 @@ window.onload = function()
 		ctx.strokeStyle = darkColor;
         xpos = W/100*10;
         ypos = H-(H/100*9);
-        var jaugeHeight = H/100*80;
-        var jaugeWidth = W/100*18;
-        var radius = 10;
+        
+        
 
 		//traçage de la jauge
-		drawJauge(xpos,ypos, jaugeHeight, jaugeWidth, radius);
+		drawJauge();
 		
 		//tracer des graduations et des pourcentages
-		drawGraduating(xpos,ypos, jaugeHeight);
+		drawGraduating();
 	}
 
 	/*
@@ -257,11 +275,60 @@ window.onload = function()
 		init();
 	}
 
-	draw();
+	var container = document.getElementById('hal-uca-counters');
+	var canvas = document.getElementById("hal-uca-canvas");
+	
+	if (canvas.getContext){
+		var ctx = canvas.getContext("2d");
+	
+		//récupération des dimensions css du conteneur du canvas
+		var cssWidth = window.getComputedStyle(container).getPropertyValue('width');
+		var cssHeight = window.getComputedStyle(container).getPropertyValue('height');
+		var W = cssWidth.split('px')[0];
+		var H = cssHeight.split('px')[0];
+		
+		canvas.width  = W;
+		canvas.height = H; 
+			
+		var animation_loop, redraw_loop;
 
 
-	/* Crée une boucle sur la fonction draw() avec un intervalle de 30 secondes */
-	redraw_loop = setInterval(draw, 30000);
+		var nbWithFiles = <?= $nbWithFiles ?>;
+		var nbWithoutFiles = <?= $nbWithoutFiles?>;
+		var nbArticles = nbWithoutFiles + nbWithFiles;
+		var rootText = 'articles de revues de 2020';
+		var textWithoutFiles = "attendent leur texte intégral dans HAL";
+		var textWithFiles = "sont en libre accès depuis HAL";
+
+		//déclage de la bordure par rapport au cadre pour l'ombre et les coins arrondis
+		var offset = 8;
+		var radius = 10;
+
+		//cordonnées d'origine d'un tracé
+		var xpos = 0;
+		var ypos = 0;
+
+		var fillColor = "#dd7226";
+		var darkColor = "#515151";
+		var shadowColor = "#777";
+
+		//pourcentage de remplissage de la jauge
+		var jaugePercent = 0;
+		var finalJaugePercent = Math.round(nbWithFiles * 100 / nbArticles);
+		
+		//taille de la jauge
+		var jaugeHeight = H/100*80;
+        var jaugeWidth = W/100*18;
+
+
+		//traçage du dessin
+		draw();
+    
+		/* Crée une boucle sur la fonction draw() avec un intervalle de 30 secondes */
+		redraw_loop = setInterval(draw, 30000);
+	}
+
+
 }
 </script>
 
