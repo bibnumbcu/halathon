@@ -7,8 +7,8 @@
 
 
 require ('functions.php');
-
-$url = 'https://'.$_SERVER[HTTP_HOST]. dirname($_SERVER['PHP_SELF']).'/getArticles.php';
+$baseUrl = 'https://'.$_SERVER[HTTP_HOST]. dirname($_SERVER['PHP_SELF']);
+$url = $baseUrl.'/getArticles.php';
 $results = getApi($url);
 $jsonResults = json_decode($results);
 $nbWithFiles = $jsonResults->nbWithFiles;
@@ -395,7 +395,7 @@ window.onload = function()
 
 		
 		var cadenas = new Image();
-		cadenas.src = './images/logoCadenas_orange.png';
+		cadenas.src = "<?= $baseUrl ?>" + '/images/logoCadenas_orange.png';
 		cadenas.onload = function () {
         };
 
@@ -407,7 +407,7 @@ window.onload = function()
 		var mouseX = 0;
 		var mouseY = 0;
 
-		macaron.src = './images/HAL_UCA_macaron.png';
+		macaron.src = "<?= $baseUrl ?>" + '/images/HAL_UCA_macaron.png';
 		macaron.onload = function () {
         };
 		
