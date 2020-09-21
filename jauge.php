@@ -83,6 +83,9 @@ window.onload = function()
 	*	fonction de traçage de la jauge
 	*/
 	 function drawJauge(){
+			ctx.beginPath();
+			ctx.strokeStyle = darkColor;
+
 			//coin inférieur gauche
 			ctx.moveTo(xpos, ypos);
 
@@ -185,6 +188,45 @@ window.onload = function()
 		resetShadow();
 
 	}
+
+	/**
+	*	fonction de gestion du lien cliquable sur l'image du macaron hal
+	* 	evenement on mouse move
+	 */
+	function mouseMoveOnLink (ev) {
+		var x,y;
+		// Get the mouse position relative to the canvas element.
+		if (ev.layerX || ev.layerX == 0) { //for firefox
+			x = ev.layerX;
+			y = ev.layerY;
+		}
+		x-=canvas.offsetLeft;
+		y-=canvas.offsetTop;
+
+		//is the mouse over the link?
+		if((x>=mouseX && x <= (mouseX + macaronWidth)) && (y>=mouseY && y<=(mouseY+macaronHeight))){
+			document.body.style.cursor = "pointer";
+			onLink=true;
+
+			// alert(onLink);
+		}
+		else{
+			document.body.style.cursor = "";
+			onLink=false;
+		}
+	}
+
+	/**
+	*	fonction de gestion du lien cliquable sur l'image du macaron hal 
+		evenement on click
+	 */
+	function mouseClickOnLink(e) {
+		if (onLink)  {
+			window.location = macaronLink;
+		}
+	}
+
+
 	/*
 	 * Initialise le canvas en créant le texte avec l'affichage des compteurs et le rectangle gradué avec la jauge
 	 */
@@ -214,21 +256,48 @@ window.onload = function()
         //traçage du texte
         drawText(rootText, textWithFiles, nbWithFiles, fillColor);
 
+		
+
 		/**
         *   traçage de la jauge
          */
-        ctx.beginPath();
-		ctx.strokeStyle = darkColor;
         xpos = W/100*10;
         ypos = H-(H/100*9);
-        
-        
 
 		//traçage de la jauge
 		drawJauge();
 		
 		//tracer des graduations et des pourcentages
 		drawGraduating();
+
+		/**
+		* affichage des logos
+		*/
+		//calcul des coordonnées
+        xpos = W/100*90;
+        ypos = H/100*70;
+		ctx.drawImage(cadenas, xpos, ypos);
+
+		//calcul des coordonnées
+        xpos = W/100*55;
+        ypos = H/100*35;
+		
+		//rotation du macaron
+		ctx.save();
+		ctx.translate(xpos+(macaronWidth/2), ypos + (macaronHeight/2));
+		ctx.rotate(25*Math.PI/180.0);
+		ctx.translate(-(xpos+(macaronWidth/2)), -(ypos + (macaronHeight/2)));
+		ctx.drawImage(macaron, xpos, ypos, macaronWidth, macaronHeight);
+		ctx.restore();
+
+		//ajout d'un lien cliquable sur le macaron
+		//calcul des coordonnées
+		mouseX = xpos;
+		mouseY = ypos;
+
+		//ajout des évenements
+		canvas.addEventListener("mousemove", mouseMoveOnLink, false);
+    	canvas.addEventListener("click", mouseClickOnLink, false);
 	}
 
 	/*
@@ -252,6 +321,7 @@ window.onload = function()
 				//on réinitialise la jauge
 				jaugePercent = 0;
 
+				
 				//déclenchement de l'animation toutes les 30 millisecondes
 				animation_loop = setInterval(animate_to, 30 );
 			}
@@ -321,8 +391,27 @@ window.onload = function()
         var jaugeWidth = W/100*18;
 
 
+		
+		var cadenas = new Image();
+		cadenas.src = './images/logoCadenas_orange.png';
+		cadenas.onload = function () {
+        };
+
+		var macaronWidth = 150;
+		var macaronHeight = 150;
+		var macaronLink = 'https://uca.fr';
+		var macaron = new Image();
+		var onLink = false;
+		var mouseX = 0;
+		var mouseY = 0;
+
+		macaron.src = './images/HAL_UCA_macaron.png';
+		macaron.onload = function () {
+        };
+		
 		//traçage du dessin
 		draw();
+		
     
 		/* Crée une boucle sur la fonction draw() avec un intervalle de 30 secondes */
 		redraw_loop = setInterval(draw, 30000);
