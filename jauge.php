@@ -196,10 +196,12 @@ window.onload = function()
 	function mouseMoveOnLink (ev) {
 		var x,y;
 		// Get the mouse position relative to the canvas element.
-		if (ev.layerX || ev.layerX == 0) { //for firefox
-			x = ev.layerX;
-			y = ev.layerY;
-		}
+		// if (ev.layerX || ev.layerX == 0) { //for firefox
+			// x = ev.layerX;
+			// y = ev.layerY;
+		// }
+		x = ev.pageX;
+		y = ev.pageY;
 		x-=canvas.offsetLeft;
 		y-=canvas.offsetTop;
 
