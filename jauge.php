@@ -189,45 +189,6 @@ window.onload = function()
 
 	}
 
-	/**
-	*	fonction de gestion du lien cliquable sur l'image du macaron hal
-	* 	evenement on mouse move
-	 */
-	function mouseMoveOnLink (ev) {
-		var x,y;
-		// Get the mouse position relative to the canvas element.
-		// if (ev.layerX || ev.layerX == 0) { //for firefox
-			// x = ev.layerX;
-			// y = ev.layerY;
-		// }
-		x = ev.pageX;
-		y = ev.pageY;
-		x-=canvas.offsetLeft;
-		y-=canvas.offsetTop;
-
-		//is the mouse over the link?
-		if((x>=mouseX && x <= (mouseX + macaronWidth)) && (y>=mouseY && y<=(mouseY+macaronHeight))){
-			document.body.style.cursor = "pointer";
-			onLink=true;
-
-			// alert(onLink);
-		}
-		else{
-			document.body.style.cursor = "";
-			onLink=false;
-		}
-	}
-
-	/**
-	*	fonction de gestion du lien cliquable sur l'image du macaron hal 
-		evenement on click
-	 */
-	function mouseClickOnLink(e) {
-		if (onLink)  {
-			window.location = macaronLink;
-		}
-	}
-
 
 	/*
 	 * Initialise le canvas en créant le texte avec l'affichage des compteurs et le rectangle gradué avec la jauge
@@ -298,8 +259,31 @@ window.onload = function()
 		mouseY = ypos;
 
 		//ajout des évenements
-		canvas.addEventListener("mousemove", mouseMoveOnLink, false);
-    	canvas.addEventListener("click", mouseClickOnLink, false);
+		canvas.addEventListener("mousemove", function(ev){
+			var x,y;
+			x = ev.pageX;
+			y = ev.pageY;
+			x-=canvas.offsetLeft;
+			y-=canvas.offsetTop;
+
+			//is the mouse over the link?
+			if((x>=mouseX && x <= (mouseX + macaronWidth)) && (y>=mouseY && y<=(mouseY+macaronHeight))){
+				document.body.style.cursor = "pointer";
+				onLink=true;
+
+				// alert(onLink);
+			}
+			else{
+				document.body.style.cursor = "";
+				onLink=false;
+			}
+		});
+
+		canvas.addEventListener("click", function(){
+			if (onLink)  {
+				window.location = macaronLink;
+			}
+		});
 	}
 
 	/*
