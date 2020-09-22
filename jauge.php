@@ -234,16 +234,16 @@ window.onload = function()
 		ctx.drawImage(cadenas, xpos, ypos);
 
 		//calcul des coordonnées
-        xpos = W/100*55;
-        ypos = H/100*35;
+        // xpos = W/100*55;
+        // ypos = H/100*35;
 		
-		//rotation du macaron
-		ctx.save();
-		ctx.translate(xpos+(macaronWidth/2), ypos + (macaronHeight/2));
-		ctx.rotate(10*Math.PI/180.0);
-		ctx.translate(-(xpos+(macaronWidth/2)), -(ypos + (macaronHeight/2)));
-		ctx.drawImage(macaron, xpos, ypos, macaronWidth, macaronHeight);
-		ctx.restore();
+		// //rotation du macaron
+		// ctx.save();
+		// ctx.translate(xpos+(macaronWidth/2), ypos + (macaronHeight/2));
+		// ctx.rotate(10*Math.PI/180.0);
+		// ctx.translate(-(xpos+(macaronWidth/2)), -(ypos + (macaronHeight/2)));
+		// ctx.drawImage(macaron, xpos, ypos, macaronWidth, macaronHeight);
+		// ctx.restore();
 
 	
 	}
@@ -345,17 +345,17 @@ window.onload = function()
 		cadenas.onload = function () {
         };
 
-		var macaronWidth = 150;
-		var macaronHeight = 150;
-		// var macaronLink = 'https://uca.fr';
-		// var macaronOnLink = false;
-		// var macaronX = 0;
-		// var macaronY = 0;
-		var macaron = new Image();
+		// var macaronWidth = 150;
+		// var macaronHeight = 150;
+		// // var macaronLink = 'https://uca.fr';
+		// // var macaronOnLink = false;
+		// // var macaronX = 0;
+		// // var macaronY = 0;
+		// var macaron = new Image();
 
-		macaron.src = "<?= $baseUrl ?>" + '/images/HAL_UCA_macaron.png';
-		macaron.onload = function () {
-        };
+		// macaron.src = "<?= $baseUrl ?>" + '/images/HAL_UCA_macaron.png';
+		// macaron.onload = function () {
+        // };
 		
 		//traçage du dessin
 		draw();
