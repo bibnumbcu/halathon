@@ -16,11 +16,20 @@ $nbWithoutFiles = $jsonResults->nbWithoutFiles;
 ?>
 
 <style>
+	@media screen and (min-width: 471px){
 	    #hal-uca-counters{
 			margin: 0 auto;
 			width: 600px;
 			height: 500px;
 		}
+	}
+
+	@media screen and (max-width: 470px){
+		#hal-uca-counters{
+				width: 300px;
+				height: 200px;
+			}
+	}
 	
 </style>
 
