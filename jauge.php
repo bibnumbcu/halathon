@@ -16,19 +16,42 @@ $nbWithoutFiles = $jsonResults->nbWithoutFiles;
 ?>
 
 <style>
-	@media screen and (min-width: 471px){
+	@media screen and (max-width: 500px){
+		#hal-uca-counters{
+				margin: 0 auto;
+				width: 350px;
+				height: 250px;
+				font-size: 8px;
+		}
+	}
+
+	@media screen and (min-width: 501px){
+		#hal-uca-counters{
+			margin: 0 auto;
+			width: 500px;
+			height: 400px;
+			font-size: 12px;
+		}
+	}
+
+	@media screen and (min-width: 768px){
 	    #hal-uca-counters{
 			margin: 0 auto;
 			width: 600px;
 			height: 500px;
+			font-size: 12px;
 		}
 	}
 
-	@media screen and (max-width: 470px){
+	
+
+	@media screen and (min-width: 1200px){
 		#hal-uca-counters{
-				width: 300px;
-				height: 200px;
-			}
+			margin: 0 auto;
+			width: 700px;
+			height: 600px;
+			font-size: 16px;
+		}
 	}
 	
 </style>
@@ -42,15 +65,15 @@ window.onload = function()
      */
 	function drawText(rootText, text, nbArts, textColor){
         ctx.fillStyle = textColor;
-        ctx.font = "bold 35px Arial ";
-        ctx.fillText(nbArts, xpos, ypos + 15);
+        ctx.font = "bold " + 2.4*fontSize + "px Arial ";
+        ctx.fillText(nbArts, xpos, ypos + 1.1*fontSize);
 
         //ajout du texte vers la droite 
-        ctx.font = " bold 15px Arial";
-        ctx.fillText(rootText, xpos + 80, ypos);
+        ctx.font = " bold "+ 1.1*fontSize +"px Arial";
+        ctx.fillText(rootText, xpos + 5.5*fontSize, ypos );
         
         //ajout du texte vers le bas
-        ctx.fillText(text, xpos + 80, ypos + 15);
+        ctx.fillText(text, xpos + 5.5*fontSize, ypos + 1.1*fontSize);
      }
 
 
@@ -97,7 +120,7 @@ window.onload = function()
 			ctx.fillRect(xpos, ypos, jaugeWidth, -jaugeHeight/100*jaugePercent);
 			
 			//affichage du poucentage en cours de remplissage
-			ctx.font = "bold 15px Arial ";
+			ctx.font = "bold " + fontSize + "px Arial ";
 
         	ctx.fillText(jaugePercent + ' %', xpos - 5 + (jaugeWidth/2), ypos -(jaugeHeight/100*jaugePercent) - 10);
 
@@ -118,8 +141,8 @@ window.onload = function()
 
 					//Affichage des pourcentages à gauche des graduations
 					ctx.fillStyle = darkColor;
-					ctx.font = "bold 15px Arial ";
-					ctx.fillText(25*i/4+" %", xpos-40, ypos - (yStep*i) + 5);
+					ctx.font = "bold "+ fontSize +"px Arial ";
+					ctx.fillText(25*i/4+" %", xpos-(3*fontSize), ypos - (yStep*i) + 5);
 				}
 				else{
 					//traçage de la ligne
@@ -240,7 +263,7 @@ window.onload = function()
 		//calcul des coordonnées
         xpos = W/100*90;
         ypos = H/100*70;
-		ctx.drawImage(cadenas, xpos, ypos);
+		ctx.drawImage(cadenas, xpos, ypos, 2*fontSize, 3*fontSize);
 
 		//calcul des coordonnées
         // xpos = W/100*55;
@@ -311,8 +334,11 @@ window.onload = function()
 		//récupération des dimensions css du conteneur du canvas
 		var cssWidth = window.getComputedStyle(container).getPropertyValue('width');
 		var cssHeight = window.getComputedStyle(container).getPropertyValue('height');
+		var cssFontSize = window.getComputedStyle(container).getPropertyValue('font-size');
+		
 		var W = cssWidth.split('px')[0];
 		var H = cssHeight.split('px')[0];
+		var fontSize = cssFontSize.split('px')[0];
 		
 		canvas.width  = W;
 		canvas.height = H; 
