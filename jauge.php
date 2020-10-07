@@ -258,24 +258,14 @@ window.onload = function()
 		
 
 		/**
-		* affichage des logos
+		* affichage du logo openaccess
 		*/
 		//calcul des coordonnées
         xpos = W/100*90;
         ypos = H/100*70;
 		ctx.drawImage(cadenas, xpos, ypos, 2*fontSize, 3*fontSize);
 
-		//calcul des coordonnées
-        // xpos = W/100*55;
-        // ypos = H/100*35;
 		
-		// //rotation du macaron
-		// ctx.save();
-		// ctx.translate(xpos+(macaronWidth/2), ypos + (macaronHeight/2));
-		// ctx.rotate(10*Math.PI/180.0);
-		// ctx.translate(-(xpos+(macaronWidth/2)), -(ypos + (macaronHeight/2)));
-		// ctx.drawImage(macaron, xpos, ypos, macaronWidth, macaronHeight);
-		// ctx.restore();
 
 	
 	}
@@ -380,55 +370,6 @@ window.onload = function()
 		cadenas.onload = function () {
         };
 
-		// var macaronWidth = 150;
-		// var macaronHeight = 150;
-		// // var macaronLink = 'https://uca.fr';
-		// // var macaronOnLink = false;
-		// // var macaronX = 0;
-		// // var macaronY = 0;
-		// var macaron = new Image();
-
-		// macaron.src = "<?= $baseUrl ?>" + '/images/HAL_UCA_macaron.png';
-		// macaron.onload = function () {
-        // };
-		
-		//traçage du dessin
-		draw();
-
-		//ajout d'un lien cliquable sur le macaron
-		// //calcul des coordonnées
-		// macaronX = W/100*55;
-		// macaronY = H/100*35;
-
-
-		//ajout des évenements
-		// canvas.addEventListener("mousemove", function(ev){
-		// 	//récupération des coordonnées de la souris
-		// 	var x = ev.pageX;
-		// 	var y = ev.pageY;
-			
-		// 	//correction des coordonnée pour avoir celles relatives au canvas
-		// 	x -= canvas.offsetLeft;
-		// 	y -= canvas.offsetTop;
-
-		// 	//on teste si la souris est dans la zone de l'image
-		// 	if((x >= macaronX && x <= (macaronX + macaronWidth)) && (y >= macaronY && y <= (macaronY+macaronHeight))){
-		// 		document.body.style.cursor = "pointer";
-		// 		macaronOnLink=true;
-		// 	}
-		// 	else{
-		// 		document.body.style.cursor = "";
-		// 		macaronOnLink=false;
-		// 	}
-		// });
-
-		// canvas.addEventListener("click", function(){
-		// 	if (macaronOnLink)  {
-		// 		window.location = macaronLink;
-		// 	}
-		// });
-		
-    
 		/* Crée une boucle sur la fonction draw() avec un intervalle de 30 secondes */
 		redraw_loop = setInterval(draw, 30000);
 	}
