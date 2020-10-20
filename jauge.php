@@ -370,6 +370,8 @@ window.onload = function()
 		cadenas.onload = function () {
         };
 
+		draw();
+		
 		/* Crée une boucle sur la fonction draw() avec un intervalle de 30 secondes */
 		redraw_loop = setInterval(draw, 30000);
 	}
