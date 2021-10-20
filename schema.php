@@ -116,7 +116,7 @@ $baseUrl = 'https://'.$_SERVER[HTTP_HOST]. dirname($_SERVER['PHP_SELF']);
 	<img src="<?= $baseUrl ?>/images/comment-deposer-hal.jpg" alt="Schéma de dépôt dans hal"/>
 	<a href="https://hal.uca.fr" id="hal" aria-label="Lien vers hal"></a>
 	<a href="https://hal.uca.fr/user/create" id="hal-create" aria-label="Lien vers la création d'un compte hal"></a>
-	<a href="https://bu.uca.fr/ressources/hal-clermont/open-access-weeks/#inscription" id="hal-inscription" aria-label="s'inscrire à hal"></a>
+	<a href="https://bu.uca.fr/ressources/hal-clermont/open-access-weeks-2021#inscription" id="hal-inscription" aria-label="s'inscrire à hal"></a>
   	<a aria-label="Lien pour se connecter à hal" id="hal-connect" href="https://cas.ccsd.cnrs.fr/cas/login?service=https%3A%2F%2Fhal.uca.fr%2Fuser%2Flogin%3Furl%3Dhttps%253A%252F%252Fhal.uca.fr%252F%252Fuser%252Fcreate" ></a>
 	<a aria-label="Lien vers hal" id="hal2" href="https://hal.uca.fr/" ></a>
 	<a aria-label="Loi pour une république numérique" href="https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000033202841"  id="hal-loi"></a>
