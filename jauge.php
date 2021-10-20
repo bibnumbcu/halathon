@@ -1,8 +1,8 @@
 <?php
 /**
  * script d'interrogation de l'api de hal, afin de récupérer :
- * * les articles de revues publiés en 2020 qui sont des références avec fichier ou qui sont des références sans fichiers mais qui ont un accès externe au texte
- * * les articles de revues publiés en 2020 qui sont des références sans fichiers et qui n'ont pas d'accès externe au texte
+ * * les articles de revues publiés en 2021 qui sont des références avec fichier ou qui sont des références sans fichiers mais qui ont un accès externe au texte
+ * * les articles de revues publiés en 2021 qui sont des références sans fichiers et qui n'ont pas d'accès externe au texte
  */
 
 
@@ -339,7 +339,7 @@ window.onload = function()
 		var nbWithFiles = <?= $nbWithFiles ?>;
 		var nbWithoutFiles = <?= $nbWithoutFiles?>;
 		var nbArticles = nbWithoutFiles + nbWithFiles;
-		var rootText = 'articles de revues de 2020';
+		var rootText = 'articles de revues de 2021';
 		var textWithoutFiles = "attendent leur texte intégral dans HAL";
 		var textWithFiles = "sont en libre accès depuis HAL";
 
